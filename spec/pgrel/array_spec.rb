@@ -68,4 +68,19 @@ describe ArrayStore do
       expect(ArrayStore.where.store(:tags).not.overlap('b', 2).size).to eq 1
     end
   end
+
+  it '#all' do
+    expect(ArrayStore.where.store(:tags).all('b').size).to eq(1)
+    expect(ArrayStore.where.store(:tags).all('b').first.name).to eq 'c'
+  end
+
+  it '#by_position' do
+    records = ArrayStore.where.store(:tags).by_position(0, '1')
+    expect(records.size).to eq(1)
+    expect(records.first.name).to eq('a')
+
+    records = ArrayStore.where.store(:tags).by_position(1, 'b')
+    expect(records.first.name).to eq('b')
+    expect(records.size).to eq(1)
+  end
 end

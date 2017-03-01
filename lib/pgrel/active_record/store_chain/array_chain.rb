@@ -13,6 +13,14 @@ module ActiveRecord
       def overlap(*vals)
         update_scope "#{@store_name} && #{type_cast(vals.flatten)}"
       end
+
+      def all(val)
+        update_scope "#{type_cast(val)} = ALL(#{@store_name}) AND cardinality(#{@store_name}) <> 0"
+      end
+
+      def by_position(index, val)
+        update_scope "#{@store_name}[#{index+1}] = #{type_cast(val)}"
+      end
     end
   end
 end
